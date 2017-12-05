@@ -1,0 +1,45 @@
+{
+  "name": "pg-doc-store",
+  "description": "Opionated solution for storing document as entities in postgres without an ORM-solution",
+  "author": "Bonnier News",
+  "contributors": [
+    "Jens Carlén",
+    "Jens-Peter Olsson",
+    "Kristoffer Jansson",
+    "Linda Andersson",
+    "Max Olofsson",
+    "Thorbjörn Karlström"
+  ],
+  "version": "1.1.0",
+  "scripts": {
+    "pretest": "docker-compose build",
+    "test": "node_modules/.bin/mocha",
+    "posttest": "eslint --cache ."
+  },
+  "repository": "https://github.com/BonnierNews/lu-pg-doc-store.git",
+  "keywords": [
+    "postgres",
+    "postgresql",
+    "simple",
+    "entity",
+    "store",
+    "document",
+    "orm"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.6.0",
+    "exp-config": "^2.0.1",
+    "pg": "^7.4.0",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "chai": "^3.5.0",
+    "eslint": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2",
+    "mocha-cakes-2": "^2.0.1"
+  }
+}

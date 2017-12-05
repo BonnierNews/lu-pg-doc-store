@@ -1,0 +1,11 @@
+{
+  "log": "file",
+  "logLevel": "debug",
+  "postgres": {
+    "user": "et",
+    "password": "ET",
+    "host": "localhost",
+    "port": "5432",
+    "database": "entity_test"
+  }
+}
