@@ -3,7 +3,7 @@
 const pgClient = require("./lib/client");
 const crud = require("./lib/crud");
 const initDb = require("./lib/init-db");
-const testHelper = require("./test/helpers/testHelper");
+const testHelper = require("./lib/testHelper");
 
 module.exports = {
   crud,

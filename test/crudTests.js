@@ -5,7 +5,7 @@
 const assert = require("assert");
 const crud = require("../lib/crud");
 const uuid = require("uuid");
-const helper = require("./helpers/testHelper");
+const helper = require("../lib/testHelper");
 
 Feature("CRUD", () => {
 
