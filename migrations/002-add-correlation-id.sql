@@ -1,2 +1,3 @@
 ALTER TABLE entity_version
-  ADD correlation_id VARCHAR(100);
+  ADD COLUMN IF NOT EXISTS correlation_id VARCHAR(100);
+
