@@ -22,7 +22,7 @@ Feature("Version", () => {
   let entityVersions;
   let versionNrTwoId;
   let versionNrTwo;
-  const correlationIds = ["x", "y"];
+  const correlationIds = ["x", "y", "z"];
 
   before((done) => {
     helper.clearAndInit(done);
@@ -31,15 +31,39 @@ Feature("Version", () => {
   Scenario("Save and load multiple versions of an entity", () => {
 
     Given("a new entity is saved", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[0], done);
+      const entity1 = {
+        id: entity.id,
+        type: entity.type,
+        attributes: attributes[0],
+        meta: {
+          correlationId: correlationIds[0]
+        }
+      };
+      crud.upsert(entity1, done);
     });
 
     And("a new version is added to the entity", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[1], correlationIds[0], done);
+      const entity2 = {
+        id: entity.id,
+        type: entity.type,
+        attributes: attributes[1],
+        meta: {
+          correlationId: correlationIds[1]
+        }
+      };
+      crud.upsert(entity2, done);
     });
 
     And("another version is added", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[2], correlationIds[1], done);
+      const entity3 = {
+        id: entity.id,
+        type: entity.type,
+        attributes: attributes[2],
+        meta: {
+          correlationId: correlationIds[2]
+        }
+      };
+      crud.upsert(entity3, done);
     });
 
     When("we get all the versions", (done) => {
@@ -52,7 +76,7 @@ Feature("Version", () => {
 
     Then("it should return all added versions", () => {
       entityVersions.should.have.lengthOf(3);
-      entityVersions[1].correlationId.should.equal(correlationIds[0]);
+      entityVersions[1].correlationId.should.equal(correlationIds[1]);
     });
 
     Given("the returned version id of the second version", () => {
@@ -70,7 +94,7 @@ Feature("Version", () => {
     Then("it should have the attributes that was saved in that version", () => {
       versionNrTwo.versionId.should.equal(versionNrTwoId);
       versionNrTwo.attributes.should.eql(attributes[1]);
-      versionNrTwo.correlationId.should.eql(correlationIds[0]);
+      versionNrTwo.correlationId.should.eql(correlationIds[1]);
     });
   });
 });

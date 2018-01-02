@@ -5,7 +5,6 @@
 const crud = require("../../lib/crud");
 const uuid = require("uuid");
 const helper = require("../../lib/testHelper");
-const expect = require("chai").expect;
 
 Feature("Entity", () => {
 
@@ -15,8 +14,20 @@ Feature("Entity", () => {
     attributes: {
       name: "J Doe"
     },
+    relationships: [
+      {
+        system: "testSystem1",
+        type: "testType1",
+        id: "id-1"
+      },
+      {
+        system: "testSystem2",
+        type: "testType2",
+        id: "id-2"
+      }
+    ],
     meta: {
-      correlationId: "testEvent1"
+      correlationId: "testEvent"
     }
   };
 
@@ -26,7 +37,7 @@ Feature("Entity", () => {
     helper.clearAndInit(done);
   });
 
-  Scenario("Save and load an entity", () => {
+  Scenario("Save and load all relationships of an entity", () => {
 
     Given("a new entity is saved", (done) => {
       crud.upsert(entity, done);
@@ -44,11 +55,8 @@ Feature("Entity", () => {
       savedEntity.id.should.equal(entity.id);
       savedEntity.type.should.equal(entity.type);
       savedEntity.attributes.name.should.equal(entity.attributes.name);
+      savedEntity.relationships.should.deep.equal(entity.relationships);
       savedEntity.meta.correlationId.should.equal(entity.meta.correlationId);
-    });
-
-    And("it should have no relationships", () => {
-      expect(savedEntity.relationships).to.have.length(0);
     });
   });
 });
