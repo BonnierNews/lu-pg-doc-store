@@ -118,9 +118,50 @@ Feature("Entity", () => {
 
     Then("it should not be possible to update the entity", (done) => {
       crud.upsert(entity, (err, res) => {
-        should.not.equal(err, null);
-        should.equal(res, null);
-        done();
+        if (err) return done(err);
+        res.wasConflict.should.eql(true);
+        return done();
+      });
+    });
+  });
+
+  Scenario("Removing an entity that has been soft removed", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      crud.upsert(entity, done);
+    });
+
+    And("we remove the entity", (done) => {
+      crud.remove(entity.id, (err, res) => {
+        if (err) return done(err);
+        should.equal(res.removed, entity.id);
+        return done();
+      });
+    });
+
+    When("we try to remove it again nothing is removed", (done) => {
+      crud.remove(entity.id, (err, res) => {
+        if (err) return done(err);
+        should.equal(res.removed, null);
+        return done();
+      });
+    });
+
+  });
+
+  Scenario("Removing an entity that does not exist.", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    When("We remove an entity that never existed we should have removed nothing.", (done) => {
+      crud.remove(entity.id, (err, res) => {
+        if (err) return done(err);
+        should.equal(res.removed, null);
+        return done();
       });
     });
   });

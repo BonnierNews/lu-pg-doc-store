@@ -50,9 +50,9 @@ Feature("Version", () => {
 
     When("we get all the versions", (done) => {
       crud.listVersions(entity.id, (err, dbEntity) => {
-        if (err) done(err);
+        if (err) return done(err);
         entityVersions = dbEntity;
-        done();
+        return done();
       });
     });
 
@@ -67,9 +67,9 @@ Feature("Version", () => {
 
     When("we fetch the second version", (done) => {
       crud.loadVersion(versionNrTwoId, (err, dbEntity) => {
-        if (err) done(err);
+        if (err) return done(err);
         versionNrTwo = dbEntity;
-        done();
+        return done();
       });
     });
 
@@ -107,9 +107,9 @@ Feature("Version", () => {
 
     And("we note a specific version id", (done) => {
       crud.listVersions(entity.id, (err, dbEntity) => {
-        if (err) done(err);
+        if (err) return done(err);
         versionNr = dbEntity[1];
-        done();
+        return done();
       });
     });
 
@@ -119,17 +119,17 @@ Feature("Version", () => {
 
     Then("getting all the versions should fail", (done) => {
       crud.listVersions(entity.id, (err, dbEntity) => {
-        should.not.equal(err, null);
-        should.equal(dbEntity, null);
-        done();
+        if (err) return done(err);
+        dbEntity.should.eql([]);
+        return done();
       });
     });
 
     And("getting a specific version should fail", (done) => {
       crud.loadVersion(versionNr, (err, dbEntity) => {
-        should.not.equal(err, null);
+        if (err) return done(err);
         should.equal(dbEntity, null);
-        done();
+        return done();
       });
     });
   });
@@ -167,9 +167,9 @@ Feature("Version", () => {
 
     When("we forcefully get all the versions", (done) => {
       crud.listVersions(entity.id, true, (err, dbEntity) => {
-        if (err) done(err);
+        if (err) return done(err);
         entityVersions = dbEntity;
-        done();
+        return done();
       });
     });
 
@@ -184,9 +184,9 @@ Feature("Version", () => {
 
     When("we forcefully fetch the second version", (done) => {
       crud.loadVersion(versionNrTwoId, true, (err, dbEntity) => {
-        if (err) done(err);
+        if (err) return done(err);
         versionNrTwo = dbEntity;
-        done();
+        return done();
       });
     });
 
