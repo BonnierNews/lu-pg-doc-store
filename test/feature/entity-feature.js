@@ -22,10 +22,10 @@ Feature("Entity", () => {
     helper.clearAndInit(done);
   });
 
-  Scenario("Save and load an entitiy", () => {
+  Scenario("Save and load an entity", () => {
 
     Given("a new entity is saved", (done) => {
-      crud.upsert(entity.id, entity.type, entity.attributes, done);
+      crud.upsert(entity, done);
     });
 
     When("we load it", (done) => {

@@ -31,15 +31,20 @@ Feature("Version", () => {
   Scenario("Save and load multiple versions of an entity", () => {
 
     Given("a new entity is saved", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[0], done);
+      entity.attributes = attributes[0];
+      crud.upsert(entity, done);
     });
 
     And("a new version is added to the entity", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[1], correlationIds[0], done);
+      entity.attributes = attributes[1];
+      entity.meta = { correlationId: correlationIds[0] };
+      crud.upsert(entity, done);
     });
 
     And("another version is added", (done) => {
-      crud.upsert(entity.id, entity.type, attributes[2], correlationIds[1], done);
+      entity.attributes = attributes[2];
+      entity.meta = { correlationId: correlationIds[1] };
+      crud.upsert(entity, done);
     });
 
     When("we get all the versions", (done) => {
@@ -69,7 +74,7 @@ Feature("Version", () => {
 
     Then("it should have the attributes that was saved in that version", () => {
       versionNrTwo.versionId.should.equal(versionNrTwoId);
-      versionNrTwo.attributes.should.eql(attributes[1]);
+      versionNrTwo.entity.attributes.should.eql(attributes[1]);
       versionNrTwo.correlationId.should.eql(correlationIds[0]);
     });
   });
