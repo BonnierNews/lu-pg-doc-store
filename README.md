@@ -8,13 +8,18 @@ Opionated solution for storing documents as entities in postgres without an ORM-
 ```js
 const db = require("pg-doc-store").crud;
 
-const id = "12903821";
-const type = "person";
-const person = {
-  name: "J Doe"
-};
+const entity = {
+  id: "12903821",
+  type: "person", // type is required
+  attributes: {
+    name: "J Doe"
+  },
+  meta: {
+    correlationId: 123
+  }
+}
 
-db.upsert(id, type, person, (dbErr, entity) => {
+db.upsert(entity, (dbErr, entity) => {
   if (dbErr) return dbErr;
   // entity.id will contain id, will be created with uuid.v4() if not set
 });
@@ -26,7 +31,7 @@ const id = "12903821";
 
 db.load(id, (dbErr, entity) => {
   if (dbErr) return dbErr;
-  // entity will contain id, type, version and attributes
+  // entity will contain everything that was in the saved entity
 });
 ```
 ## Versions
