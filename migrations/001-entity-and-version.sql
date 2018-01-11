@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS entity_version (
   version_id VARCHAR(100) NOT NULL,
   entity_id VARCHAR(100) NOT NULL,
-  attributes JSONB,
+  correlation_id VARCHAR(100),
+  doc JSONB,
   created TIMESTAMP NOT NULL DEFAULT NOW(),
   PRIMARY KEY (version_id)
 );
