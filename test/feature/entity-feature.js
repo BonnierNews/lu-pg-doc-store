@@ -165,4 +165,19 @@ Feature("Entity", () => {
       });
     });
   });
+
+
+  Scenario("Saving an entity without a type should yield error", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    When("We add an entity without a type an error is raised", (done) => {
+      crud.upsert({id: "foo", attributes: {}}, (err, res) => {
+        if (err) return done();
+        return done(res);
+      });
+    });
+  });
+
 });
