@@ -168,16 +168,24 @@ Feature("Entity", () => {
 
 
   Scenario("Saving an entity without a type should yield error", () => {
+
+    let upsertErr = null;
+
     before((done) => {
       helper.clearAndInit(done);
     });
 
-    When("We add an entity without a type an error is raised", (done) => {
-      crud.upsert({id: "foo", attributes: {}}, (err, res) => {
-        if (err) return done();
-        return done(res);
+    When("We add an entity without a type", (done) => {
+      crud.upsert({id: "foo", attributes: {}}, (err) => {
+        upsertErr = err;
+        done();
       });
     });
+
+    Then("We should get an error", () => {
+      should.not.equal(upsertErr, null);
+    });
+
   });
 
 });
