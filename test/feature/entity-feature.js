@@ -13,6 +13,22 @@ Feature("Entity", () => {
     type: "person",
     attributes: {
       name: "J Doe"
+    },
+    relationships: [
+      {
+        "system": "system.name",
+        "type": "foreign.type",
+        "id": "type.guid"
+      },
+      {
+        "system": "other.system.name",
+        "type": "other.foreign.type",
+        "id": "other.type.guid"
+      }
+    ],
+    externalIds: {
+      "externalIdType": "external.id",
+      "otherExternalIdType": "other.external.id"
     }
   };
 
@@ -163,6 +179,55 @@ Feature("Entity", () => {
         should.equal(res.removed, null);
         return done();
       });
+    });
+  });
+
+  Scenario("Get entity by relationship", () => {
+    let savedEntity;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      crud.upsert(entity, done);
+    });
+
+    When("we try to load it by relationship", (done) => {
+      const rel = entity.relationships[0];
+      crud.loadByRelationship(entity.type, rel.type, rel.id, (err, dbEntity) => {
+        if (err) return done(err);
+        savedEntity = dbEntity;
+        return done();
+      });
+    });
+
+    Then("it should be found and match the one upserted", () => {
+      savedEntity.should.deep.eql(entity);
+    });
+  });
+
+  Scenario("Get entity by externalId", () => {
+    let savedEntity;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      crud.upsert(entity, done);
+    });
+
+    When("we try to load it by externalId", (done) => {
+      crud.loadByExternalId(entity.type, "externalIdType", "external.id", (err, dbEntity) => {
+        if (err) return done(err);
+        savedEntity = dbEntity;
+        return done();
+      });
+    });
+
+    Then("it should be found and match the one upserted", () => {
+      savedEntity.should.deep.eql(entity);
     });
   });
 });
