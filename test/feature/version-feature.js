@@ -2,7 +2,7 @@
 
 /* eslint no-undef: 0, new-cap: 0 */
 
-const crud = require("../../lib/crud");
+const crud = require("../../lib/query");
 const uuid = require("uuid");
 const helper = require("../../lib/testHelper");
 
