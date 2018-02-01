@@ -230,4 +230,34 @@ Feature("Entity", () => {
       savedEntity.should.deep.eql(entity);
     });
   });
+
+  Scenario("Loading docs with ambiguous relation", () => {
+    const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there are two entities in the db with the same relation", (done) => {
+      crud.upsert(entity, (err) => {
+        if (err) return done(err);
+        crud.upsert(otherEntity, done);
+      });
+    });
+
+    let error, savedEntity;
+    When("we try to load ONE of them by relationship", (done) => {
+      const rel = entity.relationships[0];
+      crud.loadByRelationship(entity.type, rel.type, rel.id, (err, dbEntity) => {
+        error = err;
+        savedEntity = dbEntity;
+        return done();
+      });
+    });
+
+    Then("an error should be thrown", () => {
+      error.should.be.an("error");
+      should.equal(savedEntity, undefined);
+    });
+  });
 });
