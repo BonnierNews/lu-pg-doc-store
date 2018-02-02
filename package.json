@@ -12,7 +12,7 @@
     "Linus Thiel",
     "Markus Ekholm"
   ],
-  "version": "1.4.1",
+  "version": "2.0.0",
   "scripts": {
     "pretest": "docker-compose build",
     "test": "node_modules/.bin/mocha",
