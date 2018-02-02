@@ -88,6 +88,7 @@ Feature("Entity", () => {
 
   Scenario("Save, remove and forcefully load an entity", () => {
     let savedEntity;
+    const rmCorrId = "z";
 
     before((done) => {
       helper.clearAndInit(done);
@@ -98,7 +99,7 @@ Feature("Entity", () => {
     });
 
     When("we delete it", (done) => {
-      query.remove(entity.id, (err) => {
+      query.remove(entity.id, rmCorrId, (err) => {
         if (err) return done(err);
         return done();
       });
@@ -112,10 +113,11 @@ Feature("Entity", () => {
       });
     });
 
-    And("it should have the same data", () => {
+    And("it should have no data except the id, type and correlation id", () => {
       savedEntity.id.should.equal(entity.id);
       savedEntity.type.should.equal(entity.type);
-      savedEntity.attributes.name.should.equal(entity.attributes.name);
+      savedEntity.meta.correlationId.should.equal(rmCorrId);
+      should.equal(savedEntity.attributes, undefined);
     });
   });
 
@@ -146,6 +148,9 @@ Feature("Entity", () => {
   });
 
   Scenario("Removing an entity that has been soft removed", () => {
+
+    let gotErr;
+
     before((done) => {
       helper.clearAndInit(done);
     });
@@ -155,37 +160,45 @@ Feature("Entity", () => {
     });
 
     And("we remove the entity", (done) => {
-      query.remove(entity.id, (err, res) => {
+      query.remove(entity.id, (err) => {
         if (err) return done(err);
-        should.equal(res.removed, entity.id);
         return done();
       });
     });
 
-    When("we try to remove it again nothing is removed", (done) => {
-      query.remove(entity.id, (err, res) => {
-        if (err) return done(err);
-        should.equal(res.removed, null);
-        return done();
+    When("we try to remove it again", (done) => {
+      query.remove(entity.id, (err) => {
+        gotErr = err;
+        done();
       });
+    });
+
+    Then("we get an error", () => {
+      should.not.equal(gotErr, null);
     });
 
   });
 
   Scenario("Removing an entity that does not exist.", () => {
+
+    let gotErr;
+
     before((done) => {
       helper.clearAndInit(done);
     });
 
-    When("We remove an entity that never existed we should have removed nothing.", (done) => {
-      query.remove(entity.id, (err, res) => {
-        if (err) return done(err);
-        should.equal(res.removed, null);
-        return done();
+    When("we remove an entity that never existed", (done) => {
+      query.remove(entity.id, (err) => {
+        gotErr = err;
+        done();
       });
     });
-  });
 
+    Then("we should get an error", () => {
+      should.not.equal(gotErr, null);
+    });
+
+  });
 
   Scenario("Saving an entity without a type should yield error", () => {
     let upsertErr = null;
@@ -243,7 +256,7 @@ Feature("Entity", () => {
     Given("that there TWO entities in the db", (done) => {
       query.upsert(entity, (err) => {
         if (err) return done(err);
-        query.upsert(otherEntity, done);
+        return query.upsert(otherEntity, done);
       });
     });
 
@@ -296,11 +309,12 @@ Feature("Entity", () => {
     Given("that there are two entities in the db with the same externalId", (done) => {
       query.upsert(entity, (err) => {
         if (err) return done(err);
-        query.upsert(otherEntity, done);
+        return query.upsert(otherEntity, done);
       });
     });
 
     let error, savedEntity;
+
     When("we try to load ONE of them by externalId", (done) => {
       query.loadByExternalId(entity.type, "system", "type", "externalId", (err, dbEntity) => {
         error = err;
