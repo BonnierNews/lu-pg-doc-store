@@ -186,7 +186,6 @@ Feature("Entity", () => {
     });
   });
 
-
   Scenario("Saving an entity without a type should yield error", () => {
     let upsertErr = null;
 
@@ -207,7 +206,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get entity by relationship", () => {
-    let savedEntities;
+    let savedEntity;
 
     before((done) => {
       helper.clearAndInit(done);
@@ -219,16 +218,19 @@ Feature("Entity", () => {
 
     When("we try to load it by relationship", (done) => {
       const rel = entity.relationships[0];
-      query.queryByRelationship(entity.type, rel.type, rel.id, (err, dbEntities) => {
+      query.queryBySingleRelationship({
+        entityType: entity.type,
+        relationType: rel.type,
+        id: rel.id
+      }, (err, dbEntities) => {
         if (err) return done(err);
-        savedEntities = dbEntities;
+        savedEntity = dbEntities;
         return done();
       });
     });
 
     Then("it should be found and match the one upserted", () => {
-      savedEntities.length.should.equal(1);
-      savedEntities[0].should.deep.equal(entity);
+      savedEntity.should.deep.equal(entity);
     });
   });
 
@@ -249,7 +251,11 @@ Feature("Entity", () => {
 
     When("we try to load them by relationship", (done) => {
       const rel = entity.relationships[0];
-      query.queryByRelationship(entity.type, rel.type, rel.id, (err, dbEntities) => {
+      query.queryByRelationship({
+        entityType: entity.type,
+        relationType: rel.type,
+        id: rel.id
+      }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntities = dbEntities;
         return done();
@@ -274,7 +280,12 @@ Feature("Entity", () => {
     });
 
     When("we try to load it by externalId", (done) => {
-      query.loadByExternalId(entity.type, "system", "type", "externalId", (err, dbEntity) => {
+      query.loadByExternalId({
+        entityType: entity.type,
+        systemName: "system",
+        externalIdType: "type",
+        id: "externalId"
+      }, (err, dbEntity) => {
         if (err) return done(err);
         savedEntity = dbEntity;
         return done();
@@ -302,7 +313,12 @@ Feature("Entity", () => {
 
     let error, savedEntity;
     When("we try to load ONE of them by externalId", (done) => {
-      query.loadByExternalId(entity.type, "system", "type", "externalId", (err, dbEntity) => {
+      query.loadByExternalId({
+        entityType: entity.type,
+        systemName: "system",
+        externalIdType: "type",
+        id: "externalId"
+      }, (err, dbEntity) => {
         error = err;
         savedEntity = dbEntity;
         return done();
@@ -312,6 +328,52 @@ Feature("Entity", () => {
     Then("an error should be thrown", () => {
       error.should.be.an("error");
       should.equal(savedEntity, undefined);
+    });
+  });
+
+  Scenario("DOC_NOT_FOUND errors when errors enabled", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    let error1, savedEntity1;
+    When("when trying to load non-existent entity by relationship", (done) => {
+      const rel = entity.relationships[0];
+      query.queryByRelationship({
+        entityType: entity.type,
+        relationType: rel.type,
+        id: rel.id,
+        errorOnNotFound: true
+      }, (err, dbEntity) => {
+        error1 = err;
+        savedEntity1 = dbEntity;
+        return done();
+      });
+    });
+
+    let error2, savedEntity2;
+    And("when trying to load non-existent entity by externalId", (done) => {
+      query.loadByExternalId({
+        entityType: entity.type,
+        systemName: "system",
+        externalIdType: "type",
+        id: "externalId",
+        errorOnNotFound: true
+      }, (err, dbEntity) => {
+        error2 = err;
+        savedEntity2 = dbEntity;
+        return done();
+      });
+    });
+
+    Then("an error should be thrown from ", () => {
+      error1.should.be.an("error");
+      should.equal(savedEntity1, undefined);
+    });
+
+    Then("an error should be thrown", () => {
+      error2.should.be.an("error");
+      should.equal(savedEntity2, undefined);
     });
   });
 });
