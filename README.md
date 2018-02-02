@@ -60,6 +60,47 @@ db.restore(versionId, (dbErr, entity) => {
 
 ```
 
+### Get documents by relationships and externalIds
+#### Query by relationship
+```js
+db.queryByRelationship({
+  entityType: "entity.type",
+  relationType: "relation.type",
+  id: "relation.id",
+  errorOnNotFound: true
+}, (dbErr, docs) => {
+  if (dbErr) return dbErr;
+  // docs will contain a list of docs matching the relation query
+});
+```
+Setting _errorOnNotFound_ to true will make _dbErr_ contain an error
+if a document was not found. This is useful to reduce the amount of
+boilerplate error handling code in applications using pg-doc-store.
+
+```js
+db.queryBySingleRelationship({
+  entityType: "entity.type",
+  relationType: "relation.type",
+  id: "relation.id",
+  errorOnNotFound: true
+}, (dbErr, doc) => {
+  if (dbErr) return dbErr;
+  // doc will contain everything that was in the saved doc
+});
+```
+
+```js
+db.loadByExternalId({
+  entityType: "entity.type"
+  systemName: "system.name",
+  externalIdType: "external.id.type",
+  id: "external.id"
+}, (dbErr, doc) => {
+  if (dbErr) return done(dbErr);
+  // doc will contain everything that was in the saved doc
+});
+```
+
 ## Versions
 All updates uses upsert and stores updates to an existing entity as a
 new version in the entity\_version table. The entity table contains a
