@@ -66,6 +66,7 @@ db.restore(versionId, (dbErr, entity) => {
 db.queryByRelationship({
   entityType: "entity.type",
   relationType: "relation.type",
+  system: "relation.system",
   id: "relation.id",
   errorOnNotFound: true
 }, (dbErr, docs) => {
@@ -73,9 +74,10 @@ db.queryByRelationship({
   // docs will contain a list of docs matching the relation query
 });
 ```
-Setting _errorOnNotFound_ to true will make _dbErr_ contain an error
+- Setting _errorOnNotFound_ to true will make _dbErr_ contain an error
 if a document was not found. This is useful to reduce the amount of
 boilerplate error handling code in applications using pg-doc-store.
+- Option _system_ is optional but if defined it includes the relation attribute _system_ in the document search.
 
 ```js
 db.queryBySingleRelationship({

@@ -248,6 +248,36 @@ Feature("Entity", () => {
     });
   });
 
+  Scenario("Get entity by relationship (including system)", () => {
+    let savedEntity;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      query.upsert(entity, done);
+    });
+
+    When("we try to load it by relationship (including system)", (done) => {
+      const rel = entity.relationships[0];
+      query.queryBySingleRelationship({
+        entityType: entity.type,
+        relationType: rel.type,
+        system: rel.system,
+        id: rel.id
+      }, (err, dbEntities) => {
+        if (err) return done(err);
+        savedEntity = dbEntities;
+        return done();
+      });
+    });
+
+    Then("it should be found and match the one upserted", () => {
+      savedEntity.should.deep.equal(entity);
+    });
+  });
+
   Scenario("Get multiple entities by relationship", () => {
     const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
     let savedEntities;
