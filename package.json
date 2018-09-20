@@ -15,8 +15,7 @@
   ],
   "version": "2.2.2",
   "scripts": {
-    "pretest": "docker-compose build",
-    "test": "node_modules/.bin/mocha",
+    "test": "mocha",
     "posttest": "eslint --cache ."
   },
   "repository": "https://github.com/BonnierNews/lu-pg-doc-store.git",
