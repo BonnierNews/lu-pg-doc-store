@@ -122,3 +122,23 @@ It is possible to un-remove a document by restoring it to a specific
 version, this will create a new (latest) version of the document using
 the data from the specified version. This also marks the document as
 not removed.
+
+## Adding extra tables
+
+Sometimes whats provided is not sufficient, to address this you could add your own tables to the db:
+
+```js
+const migrations = path.join(__dirname, "./extra-migrations");
+initDb.init(testMigrations, () => {});
+```
+
+The files in the directory should be `.sql`-files and their name should start with a number, which indicates in what order they should be ran;
+
+```bash
+> ls migrations/
+
+001-entity-and-version.sql
+002-add-removed-date.sql
+003-type-not-null.sql
+004-key-value.sql
+```
