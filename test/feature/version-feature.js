@@ -7,6 +7,7 @@ const uuid = require("uuid");
 const helper = require("../../lib/testHelper");
 
 Feature("Version", () => {
+  after(helper.tearDown);
 
   const attributes = [
     { name: "J Doe 1" },

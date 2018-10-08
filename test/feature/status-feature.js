@@ -6,6 +6,8 @@ const query = require("../../lib/query");
 const helper = require("../../lib/testHelper");
 
 Feature("Database status", () => {
+  after(helper.tearDown);
+
   Scenario("Check status of underlying database", () => {
     before((done) => {
       helper.clearAndInit(done);

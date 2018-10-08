@@ -7,9 +7,7 @@ const client = require("../lib/client");
 const path = require("path");
 
 describe("init db", () => {
-  after((done) => {
-    client.close(done);
-  });
+  after(client.close);
 
   it("should run migrations", (done) => {
     initDb.init(() => {
@@ -22,7 +20,7 @@ describe("init db", () => {
   it("should run additional migrations", (done) => {
     const testMigrations = path.join(__dirname, "./test-migrations");
 
-    initDb.init([testMigrations], () => {
+    initDb.init(testMigrations, () => {
       client.query("select * from test_table", [], (err) => {
         return done(err);
       });
