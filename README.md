@@ -132,7 +132,7 @@ const migrations = path.join(__dirname, "./extra-migrations");
 initDb.init(testMigrations, () => {});
 ```
 
-The files in the directory should be `.sql`-files and their name should start with a number, which indicates in what order they should be ran;
+The files in the directory should be `.sql`-files and their name should start with a number, which indicates in what order they should be run;
 
 ```bash
 > ls migrations/
