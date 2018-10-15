@@ -122,3 +122,9 @@ It is possible to un-remove a document by restoring it to a specific
 version, this will create a new (latest) version of the document using
 the data from the specified version. This also marks the document as
 not removed.
+
+## Clean Entity History
+Will make a new version of the entity with the provided data and then remove all previous versions.
+Ignores if the entity is marked as removed or not.
+Should only be used when you are sure that you want to delete the entity version history,
+since it is not reversible. Good for gdpr!
