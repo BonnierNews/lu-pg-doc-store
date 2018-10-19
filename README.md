@@ -60,6 +60,29 @@ db.restore(versionId, (dbErr, entity) => {
 
 ```
 
+### Clean document version history
+```js
+
+const entity = {
+  id: "12903821",
+  type: "person", // type is required
+  attributes: {
+    name: "anonymous"
+  },
+  meta: {
+    correlationId: 456
+  }
+}
+
+db.cleanEntityHistory(entity, (dbErr) => {
+  if (dbErr) return dbErr;
+  // this will create a new version of the entity
+  // and remove all previous versions
+  // it can also be done on soft removed entities
+});
+
+```
+
 ### Get documents by relationships and externalIds
 #### Query by relationship
 ```js
