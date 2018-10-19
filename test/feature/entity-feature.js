@@ -7,6 +7,7 @@ const uuid = require("uuid");
 const helper = require("../../lib/testHelper");
 
 Feature("Entity", () => {
+  after(helper.tearDown);
 
   const entity = {
     id: uuid.v4(),

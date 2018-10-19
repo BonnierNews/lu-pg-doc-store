@@ -6,10 +6,10 @@ const keyValue = require("../../lib/key-value");
 const helper = require("../../lib/testHelper");
 
 Feature("Key value storage", () => {
+  after(helper.tearDown);
+
   Scenario("set value of new key", () => {
-    before((done) => {
-      helper.clearAndInit(done);
-    });
+    before(helper.clearAndInit);
 
     When("data is set for key", (done) => {
       keyValue.set("some-key", {"some-data": 5}, done);

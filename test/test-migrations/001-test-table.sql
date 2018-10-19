@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS test_table (
+  id integer NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (id)
+);

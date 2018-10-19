@@ -151,3 +151,24 @@ Will make a new version of the entity with the provided data and then remove all
 Ignores if the entity is marked as removed or not.
 Should only be used when you are sure that you want to delete the entity version history,
 since it is not reversible. Good for gdpr!
+
+## Adding extra tables
+
+Sometimes whats provided is not sufficient, to address this you could add your own tables to the db:
+
+```js
+const migrations = path.join(__dirname, "./extra-migrations");
+initDb.init(testMigrations, () => {});
+```
+
+The files in the directory should be `.sql`-files and their name should start with a number, which indicates in what order they should be run;
+
+```bash
+> ls migrations/
+
+001-entity-and-version.sql
+002-add-removed-date.sql
+003-type-not-null.sql
+004-key-value.sql
+```
+
