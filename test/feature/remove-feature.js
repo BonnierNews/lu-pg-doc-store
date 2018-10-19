@@ -140,4 +140,39 @@ Feature("Version", () => {
       });
     });
   });
+
+  Scenario("Remove should only be possible for entities that exists", () => {
+    Given("there is no entity is saved", () => {});
+
+    When("cleaning the entity history of an entity that dose not exists", (done) => {
+      entity.attributes = attributes[2];
+      entity.meta = { correlationId: correlationIds[2] };
+      crud.cleanEntityHistory(entity, (err) => {
+        err.message.should.eql("No such entity");
+        return done();
+      });
+    });
+  });
+
+  Scenario("Entity needs to have required fields", () => {
+    Then("entity needs id", (done) => {
+      entity.id = null;
+      entity.attributes = attributes[2];
+      entity.meta = { correlationId: correlationIds[2] };
+      crud.cleanEntityHistory(entity, (err) => {
+        err.message.should.contain("Missing required fields in entity:");
+        return done();
+      });
+    });
+
+    And("entity needs type", (done) => {
+      entity.type = null;
+      entity.attributes = attributes[2];
+      entity.meta = { correlationId: correlationIds[2] };
+      crud.cleanEntityHistory(entity, (err) => {
+        err.message.should.contain("Missing required fields in entity:");
+        return done();
+      });
+    });
+  });
 });
