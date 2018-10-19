@@ -142,6 +142,10 @@ Feature("Version", () => {
   });
 
   Scenario("Remove should only be possible for entities that exists", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
     Given("there is no entity is saved", () => {});
 
     When("cleaning the entity history of an entity that dose not exists", (done) => {
