@@ -60,6 +60,29 @@ db.restore(versionId, (dbErr, entity) => {
 
 ```
 
+### Clean document version history
+```js
+
+const entity = {
+  id: "12903821",
+  type: "person", // type is required
+  attributes: {
+    name: "anonymous"
+  },
+  meta: {
+    correlationId: 456
+  }
+}
+
+db.cleanEntityHistory(entity, (dbErr) => {
+  if (dbErr) return dbErr;
+  // this will create a new version of the entity
+  // and remove all previous versions
+  // it can also be done on soft removed entities
+});
+
+```
+
 ### Get documents by relationships and externalIds
 #### Query by relationship
 ```js
@@ -123,6 +146,12 @@ version, this will create a new (latest) version of the document using
 the data from the specified version. This also marks the document as
 not removed.
 
+## Clean Entity History
+Will make a new version of the entity with the provided data and then remove all previous versions.
+Ignores if the entity is marked as removed or not.
+Should only be used when you are sure that you want to delete the entity version history,
+since it is not reversible. Good for gdpr!
+
 ## Adding extra tables
 
 Sometimes whats provided is not sufficient, to address this you could add your own tables to the db:
@@ -142,3 +171,4 @@ The files in the directory should be `.sql`-files and their name should start wi
 003-type-not-null.sql
 004-key-value.sql
 ```
+
