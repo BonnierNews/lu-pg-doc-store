@@ -68,7 +68,13 @@ Feature("Clean version history for given entity", () => {
     And("the entity should have the latest attributes", (done) => {
       crud.load(entity.id, (err, anonymousEntity) => {
         if (err) return done(err);
-        anonymousEntity.should.eql(expectedEntity);
+        for (const key of Object.keys(expectedEntity)) {
+          if (key === "meta") {
+            anonymousEntity[key].correlationId.should.eql(entity[key].correlationId);
+          } else {
+            anonymousEntity[key].should.deep.equal(entity[key]);
+          }
+        }
         return done();
       });
     });
@@ -76,8 +82,12 @@ Feature("Clean version history for given entity", () => {
     And("the version should have the latest attributes", (done) => {
       crud.loadVersion(entityVersions[0].versionId, (err, res) => {
         if (err) return done(err);
-        res.entity.should.eql(expectedEntity);
+        for (const key of Object.keys(expectedEntity)) {
+          if (key === "meta") continue;
+          res.entity[key].should.deep.equal(entity[key]);
+        }
         res.correlationId.should.equal(correlationIds[2]);
+        res.entity.meta.correlationId.should.eql(correlationIds[2]);
         return done();
       });
     });
@@ -127,7 +137,13 @@ Feature("Clean version history for given entity", () => {
     And("the entity should have the latest attributes and only possible to fetch forcefully", (done) => {
       crud.load(entity.id, true, (err, anonymousEntity) => {
         if (err) return done(err);
-        anonymousEntity.should.eql(expectedEntity);
+        for (const key of Object.keys(expectedEntity)) {
+          if (key === "meta") {
+            anonymousEntity[key].correlationId.should.eql(entity[key].correlationId);
+          } else {
+            anonymousEntity[key].should.deep.equal(entity[key]);
+          }
+        }
         return done();
       });
     });
@@ -135,8 +151,12 @@ Feature("Clean version history for given entity", () => {
     And("the version should have the latest attributes and only possible to fetch forcefully", (done) => {
       crud.loadVersion(entityVersions[0].versionId, true, (err, res) => {
         if (err) return done(err);
-        res.entity.should.eql(expectedEntity);
+        for (const key of Object.keys(expectedEntity)) {
+          if (key === "meta") continue;
+          res.entity[key].should.deep.equal(entity[key]);
+        }
         res.correlationId.should.equal(correlationIds[2]);
+        res.entity.meta.correlationId.should.eql(correlationIds[2]);
         return done();
       });
     });

@@ -26,8 +26,12 @@ const entity = {
 db.upsert(entity, (dbErr, entity) => {
   if (dbErr) return dbErr;
   // entity.id will contain id, will be created with uuid.v4() if not set
+  // entity.meta.createdAt and entity.meta.updatedAt will be set/updated with
+  // the correct update and creation times. User supplied values for
+  // createdAt and updatedAt are ignored and overwritten.
 });
 ```
+
 ### Load a document
 ```js
 const db = require("pg-doc-store").crud;

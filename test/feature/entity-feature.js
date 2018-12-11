@@ -37,8 +37,45 @@ Feature("Entity", () => {
     }
   };
 
-  Scenario("Save and load an entity", () => {
+  Scenario("Save an entity", () => {
+    before((done) => {
+      helper.clearAndInit(done);
+    });
 
+    const originalEntity = Object.assign(
+      JSON.parse(JSON.stringify(entity)), {
+        meta: {
+          createdAt: new Date("1917-01-01"),
+          updatedAt: new Date("1939-01-01")}
+      });
+
+    const beforeCreation = new Date();
+    let savedEntity;
+
+    Given("a new entity is saved with meta createdAt set", (done) => {
+      query.upsert(originalEntity, done);
+    });
+
+    When("we load it", (done) => {
+      query.load(entity.id, (err, dbEntity) => {
+        if (err) return done(err);
+        savedEntity = dbEntity;
+        return done();
+      });
+    });
+
+    Then("the originalEntity should have had its' createdAt and updatedAt correctly overwritten", () => {
+      (new Date(originalEntity.meta.createdAt)).should.be.above(beforeCreation);
+      originalEntity.meta.updatedAt.should.eql(originalEntity.meta.createdAt);
+    });
+
+    And("the loaded and saved entity should be identical", () => {
+      savedEntity.should.deep.eql(originalEntity);
+    });
+
+  });
+
+  Scenario("Save and load an entity", () => {
     before((done) => {
       helper.clearAndInit(done);
     });
@@ -61,6 +98,14 @@ Feature("Entity", () => {
       savedEntity.id.should.equal(entity.id);
       savedEntity.type.should.equal(entity.type);
       savedEntity.attributes.name.should.equal(entity.attributes.name);
+    });
+
+    And("a createdAt and updatedAt which are equal and before now", () => {
+      const createdAt = new Date(savedEntity.meta.createdAt);
+      const updatedAt = new Date(savedEntity.meta.updatedAt);
+      const now = new Date();
+      createdAt.should.be.at.most(now);
+      createdAt.should.eql(updatedAt);
     });
   });
 
@@ -245,7 +290,10 @@ Feature("Entity", () => {
     });
 
     Then("it should be found and match the one upserted", () => {
-      savedEntity.should.deep.equal(entity);
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
     });
   });
 
@@ -275,7 +323,10 @@ Feature("Entity", () => {
     });
 
     Then("it should be found and match the one upserted", () => {
-      savedEntity.should.deep.equal(entity);
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
     });
   });
 
@@ -309,7 +360,16 @@ Feature("Entity", () => {
 
     Then("it should be found and match the one upserted", () => {
       savedEntities.length.should.equal(2);
-      savedEntities.should.have.deep.members([entity, otherEntity]);
+      const savedEnt = savedEntities.find((x) => x.id === entity.id);
+      const savedOtherEnt = savedEntities.find((x) => x.id === otherEntity.id);
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEnt[key].should.deep.equal(entity[key]);
+      }
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedOtherEnt[key].should.deep.equal(otherEntity[key]);
+      }
     });
   });
 
@@ -338,7 +398,10 @@ Feature("Entity", () => {
     });
 
     Then("it should be found and match the one upserted", () => {
-      savedEntity.should.deep.eql(entity);
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
     });
   });
 
