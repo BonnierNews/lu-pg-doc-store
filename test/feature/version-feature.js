@@ -26,6 +26,7 @@ Feature("Version", () => {
   Scenario("Save and load multiple versions of an entity", () => {
 
     let entityVersions;
+    let genesisEntity;
     let versionNrTwoId;
     let versionNrTwo;
 
@@ -36,6 +37,14 @@ Feature("Version", () => {
     Given("a new entity is saved", (done) => {
       entity.attributes = attributes[0];
       crud.upsert(entity, done);
+    });
+
+    And("we get the genesis version", (done) => {
+      crud.load(entity.id, (err, res) => {
+        if (err) return done(err);
+        genesisEntity = res;
+        done();
+      });
     });
 
     And("a new version is added to the entity", (done) => {
@@ -79,6 +88,13 @@ Feature("Version", () => {
       versionNrTwo.versionId.should.equal(versionNrTwoId);
       versionNrTwo.entity.attributes.should.eql(attributes[1]);
       versionNrTwo.correlationId.should.eql(correlationIds[0]);
+    });
+
+    And("it should have been updated after the genisys version but created at the same time", () => {
+      const updatedAt = new Date(versionNrTwo.entity.meta.updatedAt);
+      const createdAt = new Date(versionNrTwo.entity.meta.createdAt);
+      createdAt.should.eql(new Date(genesisEntity.meta.createdAt));
+      updatedAt.should.be.above(createdAt);
     });
   });
 
