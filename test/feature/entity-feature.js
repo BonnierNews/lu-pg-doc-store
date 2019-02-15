@@ -485,4 +485,34 @@ Feature("Entity", () => {
       should.equal(savedEntity2, undefined);
     });
   });
+
+  Scenario("Get entity by multiple relationships", () => {
+    let savedEntity;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      query.upsert(entity, done);
+    });
+
+    When("we try to load it by relationship", (done) => {
+      query.findOneByRelationships({
+        entityType: entity.type,
+        relationships: entity.relationships
+      }, (err, dbEntities) => {
+        if (err) return done(err);
+        savedEntity = dbEntities;
+        return done();
+      });
+    });
+
+    Then("it should be found and match the one upserted", () => {
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
+    });
+  });
 });
