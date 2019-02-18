@@ -485,4 +485,77 @@ Feature("Entity", () => {
       should.equal(savedEntity2, undefined);
     });
   });
+
+  Scenario("Get entity by multiple relationships", () => {
+    let savedEntity;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there is an entity in the db", (done) => {
+      query.upsert(entity, done);
+    });
+
+    When("we try to load it by relationship", (done) => {
+      query.findOneByRelationships({
+        entityType: entity.type,
+        relationships: entity.relationships
+      }, (err, dbEntities) => {
+        if (err) return done(err);
+        savedEntity = dbEntities;
+        return done();
+      });
+    });
+
+    Then("it should be found and match the one upserted", () => {
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
+    });
+  });
+
+  Scenario("Get entities by multiple relationships", () => {
+    const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
+    let savedEntities;
+
+    before((done) => {
+      helper.clearAndInit(done);
+    });
+
+    Given("that there TWO entities in the db", (done) => {
+      query.upsert(entity, (err) => {
+        if (err) return done(err);
+        return query.upsert(otherEntity, done);
+      });
+    });
+
+    When("we try to load it by relationships", (done) => {
+      query.queryByRelationships({
+        entityType: entity.type,
+        relationships: entity.relationships
+      }, (err, dbEntities) => {
+        if (err) return done(err);
+        savedEntities = dbEntities;
+        return done();
+      });
+    });
+
+    Then("the result should contain the first entity", () => {
+      const savedEntity = savedEntities.find((o) => o.id === entity.id);
+      for (const key of Object.keys(entity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(entity[key]);
+      }
+    });
+
+    And("the second one", () => {
+      const savedEntity = savedEntities.find((o) => o.id === otherEntity.id);
+      for (const key of Object.keys(otherEntity)) {
+        if (key === "meta") continue;
+        savedEntity[key].should.deep.equal(otherEntity[key]);
+      }
+    });
+  });
 });
