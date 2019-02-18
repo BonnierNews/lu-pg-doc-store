@@ -132,7 +132,7 @@ db.loadByExternalId({
 ```
 
 #### Query by multiple relationships
-- Option _relationships_ can be sent as an objdct or an array containing one or multiple relationships.
+- Option _relationships_ can be sent as an object or an array containing one or multiple relationships.
 - the _system_ parameter is optional
 - The query acts like _AND_ and currently _OR_ is currently unavailable.
 
