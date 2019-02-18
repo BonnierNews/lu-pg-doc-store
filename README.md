@@ -89,6 +89,7 @@ db.cleanEntityHistory(entity, (dbErr) => {
 
 ### Get documents by relationships and externalIds
 #### Query by relationship
+- _queryByRelationship_ uses [_queryByRelationships_](#query-by-multiple-relationships) behind the scenes
 ```js
 db.queryByRelationship({
   entityType: "entity.type",
@@ -127,6 +128,24 @@ db.loadByExternalId({
 }, (dbErr, doc) => {
   if (dbErr) return done(dbErr);
   // doc will contain everything that was in the saved doc
+});
+```
+
+#### Query by multiple relationships
+- Option _relationships_ can be sent as an objdct or an array containing one or multiple relationships.
+- the _system_ parameter is optional
+- The query acts like _AND_ and currently _OR_ is currently unavailable.
+
+```js
+db.queryByRelationships({
+  relationships: [
+    {type: "relation1.type", id: "relation1.id"},
+    {type: "relation2.type", id: "relation2.id", system: "relation2.system"}
+  ]
+  entityType: "entity.type"
+}, (dbErr, docs) => {
+  if (dbErr) return dbErr;
+  // docs will contain a list of docs matching the relation query
 });
 ```
 
