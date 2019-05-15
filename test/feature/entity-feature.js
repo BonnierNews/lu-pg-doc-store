@@ -65,12 +65,13 @@ Feature("Entity", () => {
     });
 
     Then("the originalEntity should have had its' createdAt and updatedAt correctly overwritten", () => {
-      (new Date(originalEntity.meta.createdAt)).should.be.above(beforeCreation);
-      originalEntity.meta.updatedAt.should.eql(originalEntity.meta.createdAt);
+      (new Date(savedEntity.meta.createdAt)).should.be.above(beforeCreation);
+      (new Date(savedEntity.meta.updatedAt)).should.be.above(beforeCreation);
     });
 
     And("the loaded and saved entity should be identical", () => {
-      savedEntity.should.deep.eql(originalEntity);
+      savedEntity.attributes.should.deep.eql(originalEntity.attributes);
+      savedEntity.relationships.should.deep.eql(originalEntity.relationships);
     });
 
   });
