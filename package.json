@@ -15,7 +15,7 @@
   ],
   "version": "5.0.0",
   "engines": {
-    "node": ">=10 <=18"
+    "node": ">=12 <=18"
   },
   "scripts": {
     "test": "mocha && eslint --cache ."
