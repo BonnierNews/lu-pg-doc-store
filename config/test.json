@@ -9,5 +9,18 @@
     "database": "entity_test",
     "max": 10,
     "statement_timeout": 10000
+  },
+  "postgresGCP": {
+    "user": "et",
+    "password": "ET",
+    "host": "localhost",
+    "port": "5435",
+    "database": "entity_test",
+    "max": 10,
+    "statement_timeout": 10000,
+    "ssl": false
+  },
+  "toggle": {
+    "useGCPPostgres": false
   }
 }
