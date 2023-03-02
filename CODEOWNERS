@@ -1,0 +1,2 @@
+# Used by branch protection on master. Require one of the Infra team to review PRs for any changes (except those created by one of the Infra team)
+* @BonnierNews/bn-developer-data-infra
