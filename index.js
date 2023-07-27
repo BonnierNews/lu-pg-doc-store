@@ -11,5 +11,5 @@ module.exports = {
   initDb,
   testHelper,
   keyValue,
-  client
+  client,
 };

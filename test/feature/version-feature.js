@@ -13,15 +13,15 @@ Feature("Version", () => {
     { name: "J Doe 1" },
     { name: "J Doe 2" },
     { name: "J Doe 3" },
-    undefined
+    undefined,
   ];
 
   const entity = {
     id: uuid.v4(),
-    type: "person"
+    type: "person",
   };
 
-  const correlationIds = ["x", "y", "z", "ao"];
+  const correlationIds = [ "x", "y", "z", "ao" ];
 
   Scenario("Save and load multiple versions of an entity", () => {
 
@@ -151,7 +151,6 @@ Feature("Version", () => {
       });
     });
   });
-
 
   Scenario("Save, remove and forcefully load multiple versions of an entity", () => {
     let entityVersions;
