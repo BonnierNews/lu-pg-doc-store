@@ -12,29 +12,23 @@ Feature("Entity", () => {
   const entity = {
     id: uuid.v4(),
     type: "person",
-    attributes: {
-      name: "J Doe"
-    },
+    attributes: { name: "J Doe" },
     relationships: [
       {
-        "system": "system.name",
-        "type": "foreign.type",
-        "id": "type.guid"
+        system: "system.name",
+        type: "foreign.type",
+        id: "type.guid",
       },
       {
-        "system": "other.system.name",
-        "type": "other.foreign.type",
-        "id": "other.type.guid"
-      }
+        system: "other.system.name",
+        type: "other.foreign.type",
+        id: "other.type.guid",
+      },
     ],
     externalIds: {
-      "system": {
-        "type": "externalId"
-      },
-      "other.system": {
-        "other.type": "otherExternalId"
-      }
-    }
+      system: { type: "externalId" },
+      "other.system": { "other.type": "otherExternalId" },
+    },
   };
 
   Scenario("Save an entity", () => {
@@ -46,7 +40,8 @@ Feature("Entity", () => {
       JSON.parse(JSON.stringify(entity)), {
         meta: {
           createdAt: new Date("1917-01-01"),
-          updatedAt: new Date("1939-01-01")}
+          updatedAt: new Date("1939-01-01"),
+        },
       });
 
     const beforeCreation = new Date();
@@ -255,7 +250,7 @@ Feature("Entity", () => {
     });
 
     When("We add an entity without a type", (done) => {
-      query.upsert({id: "foo", attributes: {}}, (err) => {
+      query.upsert({ id: "foo", attributes: {} }, (err) => {
         upsertErr = err;
         done();
       });
@@ -282,7 +277,7 @@ Feature("Entity", () => {
       query.queryBySingleRelationship({
         entityType: entity.type,
         relationType: rel.type,
-        id: rel.id
+        id: rel.id,
       }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntity = dbEntities;
@@ -315,7 +310,7 @@ Feature("Entity", () => {
         entityType: entity.type,
         relationType: rel.type,
         system: rel.system,
-        id: rel.id
+        id: rel.id,
       }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntity = dbEntities;
@@ -332,7 +327,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get multiple entities by relationship", () => {
-    const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
+    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
     let savedEntities;
 
     before((done) => {
@@ -351,7 +346,7 @@ Feature("Entity", () => {
       query.queryByRelationship({
         entityType: entity.type,
         relationType: rel.type,
-        id: rel.id
+        id: rel.id,
       }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntities = dbEntities;
@@ -390,7 +385,7 @@ Feature("Entity", () => {
         entityType: entity.type,
         systemName: "system",
         externalIdType: "type",
-        id: "externalId"
+        id: "externalId",
       }, (err, dbEntity) => {
         if (err) return done(err);
         savedEntity = dbEntity;
@@ -407,7 +402,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Loading docs with ambiguous externalId", () => {
-    const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
+    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
 
     before((done) => {
       helper.clearAndInit(done);
@@ -427,7 +422,7 @@ Feature("Entity", () => {
         entityType: entity.type,
         systemName: "system",
         externalIdType: "type",
-        id: "externalId"
+        id: "externalId",
       }, (err, dbEntity) => {
         error = err;
         savedEntity = dbEntity;
@@ -453,7 +448,7 @@ Feature("Entity", () => {
         entityType: entity.type,
         relationType: rel.type,
         id: rel.id,
-        errorOnNotFound: true
+        errorOnNotFound: true,
       }, (err, dbEntity) => {
         error1 = err;
         savedEntity1 = dbEntity;
@@ -468,7 +463,7 @@ Feature("Entity", () => {
         systemName: "system",
         externalIdType: "type",
         id: "externalId",
-        errorOnNotFound: true
+        errorOnNotFound: true,
       }, (err, dbEntity) => {
         error2 = err;
         savedEntity2 = dbEntity;
@@ -501,7 +496,7 @@ Feature("Entity", () => {
     When("we try to load it by relationship", (done) => {
       query.findOneByRelationships({
         entityType: entity.type,
-        relationships: entity.relationships
+        relationships: entity.relationships,
       }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntity = dbEntities;
@@ -518,7 +513,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get entities by multiple relationships", () => {
-    const otherEntity = Object.assign({}, entity, {id: uuid.v4()});
+    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
     let savedEntities;
 
     before((done) => {
@@ -535,7 +530,7 @@ Feature("Entity", () => {
     When("we try to load it by relationships", (done) => {
       query.queryByRelationships({
         entityType: entity.type,
-        relationships: entity.relationships
+        relationships: entity.relationships,
       }, (err, dbEntities) => {
         if (err) return done(err);
         savedEntities = dbEntities;

@@ -13,20 +13,19 @@ Feature("Clean version history for given entity", () => {
     { name: "J Doe 1" },
     { name: "J Doe 2" },
     { name: "anonymous" },
-    undefined
+    undefined,
   ];
 
   const entity = {
     id: uuid.v4(),
-    type: "person"
+    type: "person",
   };
 
-  const correlationIds = ["x", "y", "z"];
+  const correlationIds = [ "x", "y", "z" ];
   const expectedEntity = Object.assign({}, entity, {
     attributes: attributes[2],
-    meta: {
-      correlationId: correlationIds[2]
-    }});
+    meta: { correlationId: correlationIds[2] },
+  });
 
   Scenario("Remove all previous versions of an entity", () => {
     let entityVersions;

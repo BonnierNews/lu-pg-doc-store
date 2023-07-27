@@ -12,7 +12,7 @@ Feature("Key value storage", () => {
     before(helper.clearAndInit);
 
     When("data is set for key", (done) => {
-      keyValue.set("some-key", {"some-data": 5}, done);
+      keyValue.set("some-key", { "some-data": 5 }, done);
     });
 
     Then("it should be possible to get it", (done) => {
@@ -30,11 +30,11 @@ Feature("Key value storage", () => {
     });
 
     When("data is set for key", (done) => {
-      keyValue.set("some-other-key", {"some-data": 5}, done);
+      keyValue.set("some-other-key", { "some-data": 5 }, done);
     });
 
     And("data is set for that key again", (done) => {
-      keyValue.set("some-other-key", {"some-data": 6}, done);
+      keyValue.set("some-other-key", { "some-data": 6 }, done);
     });
 
     Then("it should be possible to get it", (done) => {
