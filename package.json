@@ -13,7 +13,7 @@
     "Markus Ekholm",
     "Ivan Malmberg"
   ],
-  "version": "6.0.1",
+  "version": "6.0.2",
   "engines": {
     "node": ">=14 <=18"
   },
@@ -37,17 +37,17 @@
   "dependencies": {
     "async": "^3.2.4",
     "exp-config": "^4.2.0",
-    "pg": "^8.9.0",
-    "uuid": "^9.0.0"
+    "pg": "^8.11.3",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
-    "depcheck": "^1.4.3",
-    "eslint": "^8.45.0",
+    "chai": "^4.3.10",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.51.0",
     "eslint-config-exp": "^0.6.2",
     "eslint-plugin-json": "^3.1.0",
     "mocha": "^10.2.0",
     "mocha-cakes-2": "^3.3.0",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.3"
   }
 }
