@@ -15,7 +15,7 @@
   ],
   "version": "7.0.0",
   "engines": {
-    "node": ">=14 <=20"
+    "node": ">=16 <=20"
   },
   "scripts": {
     "lint": "eslint .",
