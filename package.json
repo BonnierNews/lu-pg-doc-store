@@ -13,9 +13,9 @@
     "Markus Ekholm",
     "Ivan Malmberg"
   ],
-  "version": "6.0.2",
+  "version": "7.0.0",
   "engines": {
-    "node": ">=14 <=18"
+    "node": ">=14 <=20"
   },
   "scripts": {
     "lint": "eslint .",
