@@ -1,0 +1,15 @@
+# Dependency directory and npm log
+node_modules
+
+# Code coverage results
+coverage
+
+# Compiled client resources
+public
+
+# Ignore everything in logs and tmp
+logs
+tmp
+
+./scripts
+./terraform
