@@ -1,24 +1,15 @@
-"use strict";
+import { v4 } from "uuid";
 
-/* eslint no-undef: 0, new-cap: 0 */
-
-const uuid = require("uuid");
-
-const crud = require("../../lib/query");
-const helper = require("../../lib/testHelper");
+import crud from "../../lib/query.js";
+import helper from "../../lib/testHelper.js";
 
 Feature("Clean version history for given entity", () => {
   after(helper.tearDown);
 
-  const attributes = [
-    { name: "J Doe 1" },
-    { name: "J Doe 2" },
-    { name: "anonymous" },
-    undefined,
-  ];
+  const attributes = [ { name: "J Doe 1" }, { name: "J Doe 2" }, { name: "anonymous" }, undefined ];
 
   const entity = {
-    id: uuid.v4(),
+    id: v4(),
     type: "person",
   };
 

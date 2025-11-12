@@ -1,9 +1,5 @@
-"use strict";
-
-/* eslint no-undef: 0, new-cap: 0 */
-
-const query = require("../../lib/query");
-const helper = require("../../lib/testHelper");
+import query from "../../lib/query.js";
+import helper from "../../lib/testHelper.js";
 
 Feature("Database status", () => {
   after(helper.tearDown);

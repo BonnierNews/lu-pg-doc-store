@@ -1,17 +1,13 @@
-"use strict";
+import { v4 } from "uuid";
 
-/* eslint no-undef: 0, new-cap: 0 */
-
-const uuid = require("uuid");
-
-const query = require("../../lib/query");
-const helper = require("../../lib/testHelper");
+import query from "../../lib/query.js";
+import helper from "../../lib/testHelper.js";
 
 Feature("Entity", () => {
   after(helper.tearDown);
 
   const entity = {
-    id: uuid.v4(),
+    id: v4(),
     type: "person",
     attributes: { name: "J Doe" },
     relationships: [
@@ -37,13 +33,12 @@ Feature("Entity", () => {
       helper.clearAndInit(done);
     });
 
-    const originalEntity = Object.assign(
-      JSON.parse(JSON.stringify(entity)), {
-        meta: {
-          createdAt: new Date("1917-01-01"),
-          updatedAt: new Date("1939-01-01"),
-        },
-      });
+    const originalEntity = Object.assign(JSON.parse(JSON.stringify(entity)), {
+      meta: {
+        createdAt: new Date("1917-01-01"),
+        updatedAt: new Date("1939-01-01"),
+      },
+    });
 
     const beforeCreation = new Date();
     let savedEntity;
@@ -61,15 +56,14 @@ Feature("Entity", () => {
     });
 
     Then("the originalEntity should have had its' createdAt and updatedAt correctly overwritten", () => {
-      (new Date(savedEntity.meta.createdAt)).should.be.above(beforeCreation);
-      (new Date(savedEntity.meta.updatedAt)).should.be.above(beforeCreation);
+      new Date(savedEntity.meta.createdAt).should.be.above(beforeCreation);
+      new Date(savedEntity.meta.updatedAt).should.be.above(beforeCreation);
     });
 
     And("the loaded and saved entity should be identical", () => {
       savedEntity.attributes.should.deep.eql(originalEntity.attributes);
       savedEntity.relationships.should.deep.eql(originalEntity.relationships);
     });
-
   });
 
   Scenario("Save and load an entity", () => {
@@ -107,7 +101,6 @@ Feature("Entity", () => {
   });
 
   Scenario("Save, remove and try to load", () => {
-
     before((done) => {
       helper.clearAndInit(done);
     });
@@ -165,7 +158,6 @@ Feature("Entity", () => {
   });
 
   Scenario("Save, remove and try to update an entity", () => {
-
     before((done) => {
       helper.clearAndInit(done);
     });
@@ -191,7 +183,6 @@ Feature("Entity", () => {
   });
 
   Scenario("Removing an entity that has been soft removed", () => {
-
     let gotErr;
 
     before((done) => {
@@ -219,11 +210,9 @@ Feature("Entity", () => {
     Then("we get an error", () => {
       should.not.equal(gotErr, null);
     });
-
   });
 
   Scenario("Removing an entity that does not exist.", () => {
-
     let gotErr;
 
     before((done) => {
@@ -240,7 +229,6 @@ Feature("Entity", () => {
     Then("we should get an error", () => {
       should.not.equal(gotErr, null);
     });
-
   });
 
   Scenario("Saving an entity without a type should yield error", () => {
@@ -275,15 +263,18 @@ Feature("Entity", () => {
 
     When("we try to load it by relationship", (done) => {
       const rel = entity.relationships[0];
-      query.queryBySingleRelationship({
-        entityType: entity.type,
-        relationType: rel.type,
-        id: rel.id,
-      }, (err, dbEntities) => {
-        if (err) return done(err);
-        savedEntity = dbEntities;
-        return done();
-      });
+      query.queryBySingleRelationship(
+        {
+          entityType: entity.type,
+          relationType: rel.type,
+          id: rel.id,
+        },
+        (err, dbEntities) => {
+          if (err) return done(err);
+          savedEntity = dbEntities;
+          return done();
+        }
+      );
     });
 
     Then("it should be found and match the one upserted", () => {
@@ -307,16 +298,19 @@ Feature("Entity", () => {
 
     When("we try to load it by relationship (including system)", (done) => {
       const rel = entity.relationships[0];
-      query.queryBySingleRelationship({
-        entityType: entity.type,
-        relationType: rel.type,
-        system: rel.system,
-        id: rel.id,
-      }, (err, dbEntities) => {
-        if (err) return done(err);
-        savedEntity = dbEntities;
-        return done();
-      });
+      query.queryBySingleRelationship(
+        {
+          entityType: entity.type,
+          relationType: rel.type,
+          system: rel.system,
+          id: rel.id,
+        },
+        (err, dbEntities) => {
+          if (err) return done(err);
+          savedEntity = dbEntities;
+          return done();
+        }
+      );
     });
 
     Then("it should be found and match the one upserted", () => {
@@ -328,7 +322,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get multiple entities by relationship", () => {
-    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
+    const otherEntity = Object.assign({}, entity, { id: v4() });
     let savedEntities;
 
     before((done) => {
@@ -344,15 +338,18 @@ Feature("Entity", () => {
 
     When("we try to load them by relationship", (done) => {
       const rel = entity.relationships[0];
-      query.queryByRelationship({
-        entityType: entity.type,
-        relationType: rel.type,
-        id: rel.id,
-      }, (err, dbEntities) => {
-        if (err) return done(err);
-        savedEntities = dbEntities;
-        return done();
-      });
+      query.queryByRelationship(
+        {
+          entityType: entity.type,
+          relationType: rel.type,
+          id: rel.id,
+        },
+        (err, dbEntities) => {
+          if (err) return done(err);
+          savedEntities = dbEntities;
+          return done();
+        }
+      );
     });
 
     Then("it should be found and match the one upserted", () => {
@@ -382,16 +379,19 @@ Feature("Entity", () => {
     });
 
     When("we try to load it by externalId", (done) => {
-      query.loadByExternalId({
-        entityType: entity.type,
-        systemName: "system",
-        externalIdType: "type",
-        id: "externalId",
-      }, (err, dbEntity) => {
-        if (err) return done(err);
-        savedEntity = dbEntity;
-        return done();
-      });
+      query.loadByExternalId(
+        {
+          entityType: entity.type,
+          systemName: "system",
+          externalIdType: "type",
+          id: "externalId",
+        },
+        (err, dbEntity) => {
+          if (err) return done(err);
+          savedEntity = dbEntity;
+          return done();
+        }
+      );
     });
 
     Then("it should be found and match the one upserted", () => {
@@ -403,7 +403,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Loading docs with ambiguous externalId", () => {
-    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
+    const otherEntity = Object.assign({}, entity, { id: v4() });
 
     before((done) => {
       helper.clearAndInit(done);
@@ -419,16 +419,19 @@ Feature("Entity", () => {
     let error, savedEntity;
 
     When("we try to load ONE of them by externalId", (done) => {
-      query.loadByExternalId({
-        entityType: entity.type,
-        systemName: "system",
-        externalIdType: "type",
-        id: "externalId",
-      }, (err, dbEntity) => {
-        error = err;
-        savedEntity = dbEntity;
-        return done();
-      });
+      query.loadByExternalId(
+        {
+          entityType: entity.type,
+          systemName: "system",
+          externalIdType: "type",
+          id: "externalId",
+        },
+        (err, dbEntity) => {
+          error = err;
+          savedEntity = dbEntity;
+          return done();
+        }
+      );
     });
 
     Then("an error should be thrown", () => {
@@ -445,31 +448,37 @@ Feature("Entity", () => {
     let error1, savedEntity1;
     When("when trying to load non-existent entity by relationship", (done) => {
       const rel = entity.relationships[0];
-      query.queryByRelationship({
-        entityType: entity.type,
-        relationType: rel.type,
-        id: rel.id,
-        errorOnNotFound: true,
-      }, (err, dbEntity) => {
-        error1 = err;
-        savedEntity1 = dbEntity;
-        return done();
-      });
+      query.queryByRelationship(
+        {
+          entityType: entity.type,
+          relationType: rel.type,
+          id: rel.id,
+          errorOnNotFound: true,
+        },
+        (err, dbEntity) => {
+          error1 = err;
+          savedEntity1 = dbEntity;
+          return done();
+        }
+      );
     });
 
     let error2, savedEntity2;
     And("when trying to load non-existent entity by externalId", (done) => {
-      query.loadByExternalId({
-        entityType: entity.type,
-        systemName: "system",
-        externalIdType: "type",
-        id: "externalId",
-        errorOnNotFound: true,
-      }, (err, dbEntity) => {
-        error2 = err;
-        savedEntity2 = dbEntity;
-        return done();
-      });
+      query.loadByExternalId(
+        {
+          entityType: entity.type,
+          systemName: "system",
+          externalIdType: "type",
+          id: "externalId",
+          errorOnNotFound: true,
+        },
+        (err, dbEntity) => {
+          error2 = err;
+          savedEntity2 = dbEntity;
+          return done();
+        }
+      );
     });
 
     Then("an error should be thrown from ", () => {
@@ -495,14 +504,17 @@ Feature("Entity", () => {
     });
 
     When("we try to load it by relationship", (done) => {
-      query.findOneByRelationships({
-        entityType: entity.type,
-        relationships: entity.relationships,
-      }, (err, dbEntities) => {
-        if (err) return done(err);
-        savedEntity = dbEntities;
-        return done();
-      });
+      query.findOneByRelationships(
+        {
+          entityType: entity.type,
+          relationships: entity.relationships,
+        },
+        (err, dbEntities) => {
+          if (err) return done(err);
+          savedEntity = dbEntities;
+          return done();
+        }
+      );
     });
 
     Then("it should be found and match the one upserted", () => {
@@ -514,7 +526,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get entities by multiple relationships", () => {
-    const otherEntity = Object.assign({}, entity, { id: uuid.v4() });
+    const otherEntity = Object.assign({}, entity, { id: v4() });
     let savedEntities;
 
     before((done) => {
@@ -529,14 +541,17 @@ Feature("Entity", () => {
     });
 
     When("we try to load it by relationships", (done) => {
-      query.queryByRelationships({
-        entityType: entity.type,
-        relationships: entity.relationships,
-      }, (err, dbEntities) => {
-        if (err) return done(err);
-        savedEntities = dbEntities;
-        return done();
-      });
+      query.queryByRelationships(
+        {
+          entityType: entity.type,
+          relationships: entity.relationships,
+        },
+        (err, dbEntities) => {
+          if (err) return done(err);
+          savedEntities = dbEntities;
+          return done();
+        }
+      );
     });
 
     Then("the result should contain the first entity", () => {

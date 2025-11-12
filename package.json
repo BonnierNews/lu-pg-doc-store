@@ -17,9 +17,10 @@
   "engines": {
     "node": ">=16 <=24"
   },
+  "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha --exit --reporter ${REPORTER:-spec} && eslint . --ext .js,.json --cache && depcheck --ignores=\"prettier\"",
+    "test": "mocha --exit --reporter ${REPORTER:-spec} && eslint . --ext .js,.json --cache && depcheck --ignores=\"prettier,eslint-import-resolver-exports\"",
     "format": "prettier **/*.js --write && eslint . --fix"
   },
   "repository": "https://github.com/BonnierNews/lu-pg-doc-store.git",
@@ -45,6 +46,7 @@
     "depcheck": "^1.4.7",
     "eslint": "^9.39.1",
     "@bonniernews/eslint-config": "^2.0.2",
+    "eslint-import-resolver-exports": "^1.0.0-beta.5",
     "eslint-plugin-file-progress": "^3.0.2",
     "eslint-plugin-json": "^4.0.1",
     "mocha": "^11.7.5",
