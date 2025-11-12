@@ -13,9 +13,9 @@
     "Markus Ekholm",
     "Ivan Malmberg"
   ],
-  "version": "8.1.0",
+  "version": "9.0.0",
   "engines": {
-    "node": ">=16 <=22"
+    "node": ">=16 <=24"
   },
   "scripts": {
     "lint": "eslint .",
@@ -35,19 +35,21 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "async": "^3.2.4",
-    "exp-config": "^4.2.0",
-    "pg": "^8.11.3",
-    "uuid": "^9.0.1"
+    "async": "^3.2.6",
+    "exp-config": "^4.2.1",
+    "pg": "^8.16.3",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "chai": "^4.3.10",
+    "chai": "^6.2.1",
     "depcheck": "^1.4.7",
-    "eslint": "^8.51.0",
-    "eslint-config-exp": "^0.6.2",
-    "eslint-plugin-json": "^3.1.0",
-    "mocha": "^10.2.0",
+    "eslint": "^9.39.1",
+    "@bonniernews/eslint-config": "^2.0.2",
+    "eslint-import-resolver-exports": "^1.0.0-beta.5",
+    "eslint-plugin-file-progress": "^3.0.2",
+    "eslint-plugin-json": "^4.0.1",
+    "mocha": "^11.7.5",
     "mocha-cakes-2": "^3.3.0",
-    "prettier": "^3.0.3"
+    "prettier": "^3.6.2"
   }
 }
