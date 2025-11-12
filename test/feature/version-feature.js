@@ -1,30 +1,21 @@
-"use strict";
+import { v4 } from "uuid";
 
-/* eslint no-undef: 0, new-cap: 0 */
-
-const crud = require("../../lib/query");
-const uuid = require("uuid");
-const helper = require("../../lib/testHelper");
+import crud from "../../lib/query.js";
+import helper from "../../lib/testHelper.js";
 
 Feature("Version", () => {
   after(helper.tearDown);
 
-  const attributes = [
-    { name: "J Doe 1" },
-    { name: "J Doe 2" },
-    { name: "J Doe 3" },
-    undefined,
-  ];
+  const attributes = [ { name: "J Doe 1" }, { name: "J Doe 2" }, { name: "J Doe 3" }, undefined ];
 
   const entity = {
-    id: uuid.v4(),
+    id: v4(),
     type: "person",
   };
 
   const correlationIds = [ "x", "y", "z", "ao" ];
 
   Scenario("Save and load multiple versions of an entity", () => {
-
     let entityVersions;
     let genesisEntity;
     let versionNrTwoId;
@@ -99,7 +90,6 @@ Feature("Version", () => {
   });
 
   Scenario("Save multiple versions of an entity, remove the entity and try to list and load the versions", () => {
-
     let versionNr;
 
     before((done) => {
@@ -213,16 +203,19 @@ Feature("Version", () => {
       });
     });
 
-    And("forcefully fetching the fourth (last) version, it should have no attributes as it is the empty (removed) version", (done) => {
-      versionNrFourId = entityVersions[3].versionId;
-      crud.loadVersion(versionNrFourId, true, (err, dbEntity) => {
-        if (err) return done(err);
-        versionNrFour = dbEntity;
-        should.equal(versionNrFour.entity.attributes, attributes[3]);
-        versionNrFour.correlationId.should.equal(correlationIds[3]);
-        return done();
-      });
-    });
+    And(
+      "forcefully fetching the fourth (last) version, it should have no attributes as it is the empty (removed) version",
+      (done) => {
+        versionNrFourId = entityVersions[3].versionId;
+        crud.loadVersion(versionNrFourId, true, (err, dbEntity) => {
+          if (err) return done(err);
+          versionNrFour = dbEntity;
+          should.equal(versionNrFour.entity.attributes, attributes[3]);
+          versionNrFour.correlationId.should.equal(correlationIds[3]);
+          return done();
+        });
+      }
+    );
   });
 
   Scenario("Save, remove and restore a version of an entity", () => {
@@ -370,5 +363,4 @@ Feature("Version", () => {
       });
     });
   });
-
 });

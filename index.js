@@ -1,12 +1,10 @@
-"use strict";
+import client from "./lib/client.js";
+import initDb from "./lib/init-db.js";
+import keyValue from "./lib/key-value.js";
+import query from "./lib/query.js";
+import testHelper from "./lib/testHelper.js";
 
-const query = require("./lib/query");
-const initDb = require("./lib/init-db");
-const testHelper = require("./lib/testHelper");
-const keyValue = require("./lib/key-value");
-const client = require("./lib/client");
-
-module.exports = {
+export default {
   query,
   initDb,
   testHelper,

@@ -1,10 +1,10 @@
-"use strict";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
-/* eslint no-undef: 0, new-cap: 0 */
+import client from "../lib/client.js";
+import initDb from "../lib/init-db.js";
 
-const initDb = require("../lib/init-db");
-const client = require("../lib/client");
-const path = require("path");
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe("init db", () => {
   after(client.close);

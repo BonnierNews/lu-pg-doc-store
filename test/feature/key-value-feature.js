@@ -1,9 +1,5 @@
-"use strict";
-
-/* eslint no-undef: 0, new-cap: 0 */
-
-const keyValue = require("../../lib/key-value");
-const helper = require("../../lib/testHelper");
+import keyValue from "../../lib/key-value.js";
+import helper from "../../lib/testHelper.js";
 
 Feature("Key value storage", () => {
   after(helper.tearDown);

@@ -1,9 +1,0 @@
-{
-    "root": true,
-    "extends": [
-        "exp"
-    ],
-    "plugins": [
-        "json"
-    ]
-}

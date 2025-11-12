@@ -1,9 +1,12 @@
+yarn-error.log
+
 # Dependency directory and npm log
 node_modules
 npm-debug.log
 
 # Code coverage results
-/coverage
+coverage
+.nyc_output
 
 # Built package
 /*.tgz
@@ -31,5 +34,33 @@ config/_revision
 
 # Atom CTAGS
 .tags
+tags
+
+# VIM swap files
+.*.sw?
+
+# Ignore everything in logs
+logs/*
+# Except the gitignore to be able to commit the logs folder
+!logs/.gitignore
+
+tmp
 
 *.log
+nohup.out
+
+.sfdx
+
+# Ignore all files used for SSL certs
+*.pem
+*.key
+
+# Keep public keys (used to encrypt passwords)
+!**/config/pubkeys/*.pem
+
+# Turborepo
+.turbo
+out
+
+# Frontend build files
+build

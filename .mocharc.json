@@ -4,5 +4,5 @@
   "recursive": true,
   "ui": "mocha-cakes-2",
   "exit": true,
-  "require": ["./test/config/setup.js"]
+  "require": ["test/setup/setup-env.js", "test/setup/setup.js"]
 }
