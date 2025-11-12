@@ -2,8 +2,9 @@
 
 /* eslint no-undef: 0, new-cap: 0 */
 
-const query = require("../../lib/query");
 const uuid = require("uuid");
+
+const query = require("../../lib/query");
 const helper = require("../../lib/testHelper");
 
 Feature("Entity", () => {

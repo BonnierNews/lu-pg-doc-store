@@ -2,8 +2,9 @@
 
 /* eslint no-undef: 0, new-cap: 0 */
 
-const crud = require("../../lib/query");
 const uuid = require("uuid");
+
+const crud = require("../../lib/query");
 const helper = require("../../lib/testHelper");
 
 Feature("Clean version history for given entity", () => {

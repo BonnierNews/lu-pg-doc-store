@@ -2,9 +2,10 @@
 
 /* eslint no-undef: 0, new-cap: 0 */
 
+const path = require("path");
+
 const initDb = require("../lib/init-db");
 const client = require("../lib/client");
-const path = require("path");
 
 describe("init db", () => {
   after(client.close);
