@@ -10,7 +10,5 @@
     "max": 10,
     "statement_timeout": 10000,
     "ssl": false
-  },
-  "toggle": {
   }
 }
