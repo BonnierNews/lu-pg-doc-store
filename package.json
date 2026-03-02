@@ -16,7 +16,7 @@
   "version": "9.0.1",
   "packageManager": "npm@11.9.0",
   "engines": {
-    "node": ">=18 <=24",
+    "node": ">=20 <=24",
     "npm": "11.9.0"
   },
   "type": "module",
