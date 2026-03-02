@@ -14,8 +14,10 @@
     "Ivan Malmberg"
   ],
   "version": "9.0.1",
+  "packageManager": "npm@11.9.0",
   "engines": {
-    "node": ">=22 <=24"
+    "node": ">=18 <=24",
+    "npm": "11.9.0"
   },
   "type": "module",
   "scripts": {
