@@ -23,7 +23,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --exit --reporter ${REPORTER:-spec} && eslint . --ext .js,.json --cache && knip --dependencies",
-    "format": "prettier **/*.js --write && eslint . --fix"
+    "format": "prettier **/*.js --write && eslint . --fix",
+    "depcheck": "knip --dependencies"
   },
   "repository": "https://github.com/BonnierNews/lu-pg-doc-store.git",
   "keywords": [
