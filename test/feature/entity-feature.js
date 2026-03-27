@@ -1,4 +1,4 @@
-import { v4 } from "uuid";
+import crypto from "node:crypto";
 
 import query from "../../lib/query.js";
 import helper from "../../lib/testHelper.js";
@@ -7,7 +7,7 @@ Feature("Entity", () => {
   after(helper.tearDown);
 
   const entity = {
-    id: v4(),
+    id: crypto.randomUUID(),
     type: "person",
     attributes: { name: "J Doe" },
     relationships: [
@@ -322,7 +322,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get multiple entities by relationship", () => {
-    const otherEntity = Object.assign({}, entity, { id: v4() });
+    const otherEntity = Object.assign({}, entity, { id: crypto.randomUUID() });
     let savedEntities;
 
     before((done) => {
@@ -403,7 +403,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Loading docs with ambiguous externalId", () => {
-    const otherEntity = Object.assign({}, entity, { id: v4() });
+    const otherEntity = Object.assign({}, entity, { id: crypto.randomUUID() });
 
     before((done) => {
       helper.clearAndInit(done);
@@ -526,7 +526,7 @@ Feature("Entity", () => {
   });
 
   Scenario("Get entities by multiple relationships", () => {
-    const otherEntity = Object.assign({}, entity, { id: v4() });
+    const otherEntity = Object.assign({}, entity, { id: crypto.randomUUID() });
     let savedEntities;
 
     before((done) => {
