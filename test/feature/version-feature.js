@@ -1,4 +1,4 @@
-import { v4 } from "uuid";
+import crypto from "node:crypto";
 
 import crud from "../../lib/query.js";
 import helper from "../../lib/testHelper.js";
@@ -9,7 +9,7 @@ Feature("Version", () => {
   const attributes = [ { name: "J Doe 1" }, { name: "J Doe 2" }, { name: "J Doe 3" }, undefined ];
 
   const entity = {
-    id: v4(),
+    id: crypto.randomUUID(),
     type: "person",
   };
 
