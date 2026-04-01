@@ -14,10 +14,10 @@
     "Ivan Malmberg"
   ],
   "version": "10.1.0",
-  "packageManager": "npm@11.9.0",
+  "packageManager": "npm@11.12.1",
   "engines": {
     "node": ">=20 <=24",
-    "npm": "11.9.0"
+    "npm": "11.12.1"
   },
   "type": "module",
   "scripts": {
