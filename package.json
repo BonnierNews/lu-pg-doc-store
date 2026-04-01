@@ -13,11 +13,9 @@
     "Markus Ekholm",
     "Ivan Malmberg"
   ],
-  "version": "10.1.0",
-  "packageManager": "npm@11.12.1",
+  "version": "10.1.1",
   "engines": {
-    "node": ">=20 <=24",
-    "npm": "11.12.1"
+    "node": ">=20 <=24"
   },
   "type": "module",
   "scripts": {
