@@ -27,9 +27,7 @@ jobs:
         run: docker compose up --build -d postgres
 
       - name: Install dependencies
-        run: |
-          npm install -g npm@11.12.1
-          npm ci
+        run: npm ci
         env:
           NODE_ENV: "test"
       - name: Run tests
