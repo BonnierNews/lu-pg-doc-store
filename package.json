@@ -13,7 +13,7 @@
     "Markus Ekholm",
     "Ivan Malmberg"
   ],
-  "version": "11.0.1",
+  "version": "11.0.2",
   "engines": {
     "node": ">=24"
   },
@@ -38,17 +38,17 @@
   "main": "index.js",
   "dependencies": {
     "async": "^3.2.6",
-    "exp-config": "^4.2.3",
+    "exp-config": "^5.0.0",
     "pg": "^8.19.0"
   },
   "devDependencies": {
-    "chai": "^6.2.2",
-    "knip": "^5.85.0",
-    "eslint": "^9.39.3",
     "@bonniernews/eslint-config": "^2.0.4",
+    "chai": "^6.2.2",
+    "eslint": "^9.39.3",
     "eslint-import-resolver-exports": "^1.0.0-beta.5",
     "eslint-plugin-file-progress": "^3.0.2",
     "eslint-plugin-json": "^4.0.1",
+    "knip": "^5.85.0",
     "mocha": "^11.7.5",
     "mocha-cakes-2": "^3.3.0",
     "prettier": "^3.8.1"
