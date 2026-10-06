@@ -48,7 +48,7 @@
     "eslint-import-resolver-exports": "^1.0.0-beta.5",
     "eslint-plugin-file-progress": "^3.0.2",
     "eslint-plugin-json": "^4.0.1",
-    "knip": "^5.85.0",
+    "knip": "^6.39.0",
     "mocha": "^11.7.5",
     "mocha-cakes-2": "^3.3.0",
     "prettier": "^3.8.1"
