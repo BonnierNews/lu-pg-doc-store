@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@bonniernews/eslint-config": "^2.0.4",
+    "@bonniernews/stayput": "^0.1.4",
     "chai": "^6.2.2",
     "eslint": "^9.39.3",
     "eslint-import-resolver-exports": "^1.0.0-beta.5",
