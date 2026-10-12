@@ -43,7 +43,7 @@
     "pg": "^8.19.0"
   },
   "devDependencies": {
-    "@bonniernews/eslint-config": "^2.0.4",
+    "@bonniernews/eslint-config": "^3.0.1",
     "@bonniernews/stayput": "^0.1.4",
     "chai": "^6.2.2",
     "eslint": "^9.39.3",
